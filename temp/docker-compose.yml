@@ -1,0 +1,27 @@
+version: "3"
+services:
+web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - surrealdb
+    networks:
+      - common-net
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    volumes:
+      - db_data:/data/db
+    ports:
+      - "8000:8000"
+    command: start --user root --pass root file://database.db
+    networks:
+      - common-net
+volumes:
+  db_data:
+  myapp_data:
+
+networks:
+  common-net: {}
